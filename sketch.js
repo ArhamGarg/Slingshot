@@ -3,61 +3,80 @@ const World= Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 
-var engine, world
-var ground
-var box1, box2, box3, box4, box5, box6;
+var engine, world;
+var box1, pig1,pig2;
+var backgroundImg,platform;
+var bird, slingshot;
 
 var gameState = "onSling";
-var ball, slingshot;
+var bg = "sprites/bg1.png";
+var score = 0;
 
 function setup(){
     var canvas = createCanvas(1200,400);
-    engine = Engine.create()
+    engine = Engine.create();
     world = engine.world;
     
-    var option = {
-        isStatic: true
-    }
-    ground = Bodies.rectangle(600, 390, 1200, 20, option);
-    World.add(world,ground);
+    ground = new Ground(600,height,1200,20);
+    platform = new Ground(150, 305, 300, 170);
 
-    box1 = new Box(700,320,50,50);
-    box2 = new Box(750,320,50,50);
-    box3 = new Box(800,320,50,50);
-    box4 = new Box(725,260,50,50);
-    box5 = new Box(775,260,50,50);
-    box6 = new Box(737.5,200,50,50);
+    box1 = new Box(700,320,70,70);
+    box2 = new Box(920,320,70,70);
+    pig1 = new Pig(810, 350);
+    log1 = new Log(810,260,300, PI/2);
 
-    ball = new Ball(200,150,25,25);
+    box3 = new Box(700,240,70,70);
+    box4 = new Box(920,240,70,70);
+    pig2 = new Pig(810, 220);
 
-    slingshot = new SlingShot(ball.body,{x:200, y:50});
+    log3 =  new Log(810,180,300, PI/2);
+
+    box5 = new Box(810,160,70,70);
+    log4 = new Log(760,120,150, PI/7);
+    log5 = new Log(870,120,150, -PI/7);
+
+    bird = new Bird(180,65);
+
+    //log6 = new Log(230,180,80, PI/2);
+    slingshot = new SlingShot(bird.body,{x:180, y:65});
 }
 
-    
 function draw(){
-    background(150);
+    if(background("blue")){
+        noStroke();
+        textSize(35)
+        text("Score:" + score, width - 300, 50)
+    }
     Engine.update(engine);
-    fill("brown");
-    rectMode(CENTER)
-    rect(ground.position.x, ground.position.y, 1200, 20);
+    //strokeWeight(4);
     box1.display();
     box2.display();
+    ground.display();
+    pig1.display();
+    pig1.score();
+    log1.display();
+
     box3.display();
     box4.display();
+    pig2.display();
+    pig2.score();
+    log3.display();
+
     box5.display();
-    box6.display();
+    log4.display();
+    log5.display();
 
-    ball.display();
-
-    slingshot.display();
+    bird.display();
+    platform.display();
+    //log6.display();
+    slingshot.display();    
 }
 
 function mouseDragged(){
-    if (gameState!=="launched"){
-        Matter.Body.setPosition(ball.body, {x: mouseX , y: mouseY});
-    }
+    //if (gameState!=="launched"){
+        Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+    //}
 }
-
 
 function mouseReleased(){
     slingshot.fly();
@@ -65,23 +84,9 @@ function mouseReleased(){
 }
 
 function keyPressed(){
-    if(keyCode === 32){
-        slingshot.attach(ball.body);
+    if(keyCode === 32 && bird.body.speed < 1){
+        bird.trajectory = []
+        Matter.Body.setPosition(bird.body, {x:200, y:50});
+        slingshot.attach(bird.body);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
