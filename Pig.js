@@ -8,6 +8,10 @@ class Pig extends BaseClass {
    //console.log(this.body.speed);
    if(this.body.speed < 3){
     super.display();
+
+    stroke("blue");
+    strokeWeight(4);
+    fill(255)
    }
    else{
      World.remove(world, this.body);

@@ -42,11 +42,11 @@ function setup(){
 }
 
 function draw(){
-    if(background("blue")){
-        noStroke();
-        textSize(35)
-        text("Score:" + score, width - 300, 50)
-    }
+    background("blue")
+    noStroke();
+    textSize(35)
+    text("Score:" + score, width - 300, 50)
+    
     Engine.update(engine);
     //strokeWeight(4);
     box1.display();

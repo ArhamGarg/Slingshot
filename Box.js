@@ -5,8 +5,8 @@ class Box extends BaseClass {
   display() {
     super.display();
 
-    strokeWeight(4);
-    stroke("green");
+    stroke("red")
+    strokeWeight(4)
     fill(255);
   }
 };
